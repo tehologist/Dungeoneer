@@ -8,9 +8,10 @@ To Start on windows
 
 Install python 3
 
+git clone https://github.com/tehologist/Dungeoneer.git or download zip file
+
 from command line
 
-git clone https://github.com/tehologist/Dungeoneer.git
 cd Dungeoneer
 python -m venv venv
 venv\Scripts\activate
