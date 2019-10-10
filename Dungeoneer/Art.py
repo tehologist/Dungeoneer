@@ -33,8 +33,8 @@
 #  Art.py -- generate object of art
 ###############################################################################
 
-import Dice
-import _Treasure
+from . import Dice
+from . import _Treasure
 
 _art_types_table = [
     (6, "Anklet"),
@@ -74,6 +74,6 @@ class Art(_Treasure.Item):
         self.value = float(Dice.D(2, 8, 0) * 100)
 
 if __name__ == '__main__':
-    print Art()
+    print(Art())
 
 # end of file.

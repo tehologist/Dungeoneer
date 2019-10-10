@@ -33,8 +33,8 @@
 #  Gems.py -- generate gems
 ###############################################################################
 
-import Dice
-import _Treasure
+from . import Dice
+from . import _Treasure
 
 _ornamental_stones = [
         'Azurite',          'Banded Agate',
@@ -120,6 +120,6 @@ class Gem(_Treasure.Item):
             self.value = int(self.value) * 1.0
 
 if __name__ == '__main__':
-    print Gem()
+    print(Gem())
 
 # end of file.

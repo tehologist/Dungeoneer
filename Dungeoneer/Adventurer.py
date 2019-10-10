@@ -30,7 +30,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import string, random
-import Spells, Dice
+from . import Spells, Dice
 
 # *******************************************************************************************************
 # Table Definitions
@@ -556,7 +556,7 @@ def statstring(stats, abbrev = 0):
                 rc.append("(+%d)" % sb)
             elif sb < 0:
                 rc.append("(%d)" % sb)
-    return string.join(rc, " ")
+    return " ".join(rc)
 
 def genmeleeweapon(cclass, level):
 
@@ -593,7 +593,7 @@ def genscroll(cclass, level):
         if type(scroll) is tuple:
             scrollspells = Spells.genscroll(scroll[0], scroll[1])
             scroll = "Scroll of %s Spells: %s" \
-                   % (classnames[cclass], string.join(scrollspells, ", "))
+                   % (classnames[cclass], ", ".join(scrollspells))
         return scroll
     return ""
 
@@ -648,9 +648,9 @@ def hitpointblock(hplst):
 
         row.append("&#9744;" * r)
 
-        rc.append(string.join(row, " "))
+        rc.append(" ".join(row))
 
-    return string.join(rc, "\n")
+    return "\n".join(rc)
 
 def showcharacter(character):
 
@@ -669,7 +669,7 @@ def showcharacter(character):
     res.append(statstring(character.stats))
     if character.spells is not None:
         res.append("<p class='MonsterBlock Body'>Spells:")
-        res.append(string.join(character.spells, ", "))
+        res.append(", ".join(character.spells))
     items = []
     if character.armor:
         items.append(character.armor)
@@ -684,9 +684,9 @@ def showcharacter(character):
         items.append(character.scroll)
     if items:
         res.append("<p class='MonsterBlock Body'>Equipment:")
-    res.append(string.join(items, ", "))
+    res.append(", ".join(items))
 
-    return string.join(res, "\n")
+    return "\n".join(res)
     
 def block(character):
 
@@ -704,7 +704,7 @@ def block(character):
         res.append("<p class='MonsterBlock'>%s" % ss)
     if character.spells is not None:
         res.append("<p class='MonsterBlock Body'>Spells:")
-        res.append(string.join(character.spells, ", "))
+        res.append(", ".join(character.spells))
     items = []
     if character.armor:
         items.append(character.armor)
@@ -719,11 +719,11 @@ def block(character):
         items.append(character.scroll)
     if items:
         res.append("<p class='MonsterBlock Body'>Equipment:")
-    res.append(string.join(items, ", "))
+    res.append(", ".join(items))    
 
     res.append(hitpointblock(character.hp))
 
-    return string.join(res, "\n")
+    return "\n".join(res)
     
 def showparty(party):
 
@@ -732,7 +732,7 @@ def showparty(party):
     for character in party:
         res.append(block(character))
 
-    return string.join(res, "\n")
+    return "\n".join(res)
 
 def miscitems(totlvl):
 
@@ -749,7 +749,7 @@ def miscitems(totlvl):
 
 def showitems(items):
     if items:
-        return "<p><b>Additional Miscellaneous Magic:</b> %s" % string.join(items, ", ")
+        return "<p><b>Additional Miscellaneous Magic:</b> %s" % ", ".join(items)
     return ""
 
 def generate(level):
@@ -791,6 +791,6 @@ def single(klass, level):
     return showparty([ character ])
 
 if __name__ == "__main__":
-    print generate(5)
+    print(generate(5))
 
 # end of file.

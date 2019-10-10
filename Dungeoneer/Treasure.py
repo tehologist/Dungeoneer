@@ -33,12 +33,12 @@
 #  Treasure.py -- generate treasures for Basic Fantasy RPG
 ###############################################################################
 
-import Gems, Art, Coins, Magic, Unknown
-import Dice
-import string
+from . import Gems, Art, Coins, Magic, Unknown
+from . import Dice
 
 def combine(lst):
-    lst.sort()
+    #lst.sort()
+    lst = sorted(lst, key=lambda x : x.value * x.qty)
     hits = 1
     while hits:
         hits = 0
@@ -51,7 +51,7 @@ def combine(lst):
                     lst[i+1] = None
                     hits += 1
         if hits:
-            lst = filter(lambda x: x is not None, lst)
+            lst = [x for x in lst if x is not None]
     return lst
 
 def _gen_coins(argtup):
@@ -352,9 +352,9 @@ _treasure_table['U6'] = _treasure_table['U67']
 _treasure_table['U7'] = _treasure_table['U67']
 
 def Types():
-    types = _treasure_table.keys()
-    ones = filter(lambda x: len(x) == 1, types)
-    mults = filter(lambda x: len(x) > 1, types)
+    types = list(_treasure_table.keys())
+    ones = [x for x in types if len(x) == 1]
+    mults = [x for x in types if len(x) > 1]
     ones.sort()
     mults.sort()
     return ones + mults
@@ -362,11 +362,12 @@ def Types():
 def Treasure(typ):
     tr = []
     try:
-        tbl = _treasure_table[string.upper(typ)]
+        tbl = _treasure_table[typ.upper()]
         for i in tbl:
             if Dice.D(1, 100, 0) <= i[0]:
                 tr = tr + i[1](i[2])
-    except:
+    except Exception as error:
+        print(error)
         tr = [ Unknown.Unknown(typ) ]
     return tr
 
@@ -391,7 +392,7 @@ def Factory(args):
         for n in range(mult):
             tr += Treasure(i)
 
-    types = string.join(types, " ")
+    types = " ".join(types)
 
     if types[-1] == ',':
         types = types[:-1]
@@ -402,12 +403,12 @@ if __name__ == "__main__":
     import sys
 
     if len(sys.argv) < 2:
-        print "Usage:  Treasure.py treasuretype [ treasuretype ... ]"
+        print("Usage:  Treasure.py treasuretype [ treasuretype ... ]")
         sys.exit(0)
 
     types, tr = Factory(sys.argv[1:])
 
-    print "Treasure Type " + string.upper(types)
+    print("Treasure Type " + types.upper())
 
     vtot = 0.0
     ocat = ''
@@ -417,16 +418,16 @@ if __name__ == "__main__":
     qty_fmt = "%" + str(qty_len) + "d"
     for t in tr:
         if t.cat != ocat:
-            print t.cat
+            print(t.cat)
         ocat = t.cat
         if t.value != 0:
-            print "   ", qty_fmt % t.qty, t.name, t.value, "GP ea.", \
-                t.value * t.qty, "GP total"
+            print("   ", qty_fmt % t.qty, t.name, t.value, "GP ea.", \
+                t.value * t.qty, "GP total")
         else:
-            print "   ", qty_fmt % t.qty, t.name
+            print("   ", qty_fmt % t.qty, t.name)
         for i in t.desc:
-            print "       ", i
+            print("       ", i)
         vtot = vtot + (t.qty * t.value)
-    print "----- Total Value", vtot, "GP\n"
+    print("----- Total Value", vtot, "GP\n")
 
 # end of script.

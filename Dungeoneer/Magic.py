@@ -33,9 +33,8 @@
 #  Magic.py -- generate magic items
 ###############################################################################
 
-import string
-import Dice, Spells
-import _Treasure
+from . import Dice, Spells
+from . import _Treasure
 
 ###############################################################################
 #  Here is the entire magic-item generation table from the 
@@ -52,7 +51,7 @@ def _quantify(row):
 
 def _genscroll(row):
     spells = Spells.genscroll(*row[2])
-    return (0, "%s: %s" % (row[1], string.join(spells, ", ")))
+    return (0, "%s: %s" % (row[1], ", ".join(spells)))
 
 _potion_table = [
     (3, "Potion of Clairaudience"),
@@ -363,7 +362,7 @@ class Magic(_Treasure.Item):
         _Treasure.Item.__init__(self)
         self.cat = "Magic"
         self.fullcat = self.fullcat + "." + self.cat
-        row = Dice.MRoll(self.__magic_switch[string.upper(kind)[:2]])
+        row = Dice.MRoll(self.__magic_switch[kind.upper()[:2]])
         self.name = self.shortname = row[1]
         if len(row) > 3:
             self.desc = row[3]
@@ -392,8 +391,8 @@ if __name__ == '__main__':
             n = int(sys.argv[1])
             t = sys.argv[2]
         for i in range(n):
-            print Magic(t)
+            print(Magic(t))
     else:
-        print Magic()
+        print(Magic())
 
 # end of file.

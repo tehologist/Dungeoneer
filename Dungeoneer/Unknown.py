@@ -33,8 +33,8 @@
 #  Unknown.py -- handle unknown treasure types
 ###############################################################################
 
-import Dice
-import _Treasure
+from . import Dice
+from . import _Treasure
 
 class Unknown(_Treasure.Item):
     def __init__(self, typ = None):
@@ -51,6 +51,6 @@ class Unknown(_Treasure.Item):
 
 
 if __name__ == '__main__':
-    print Unknown()
+    print(Unknown())
 
 # end of file.

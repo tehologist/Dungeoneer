@@ -33,8 +33,8 @@
 #  Coins.py -- generate coinage
 ###############################################################################
 
-import Dice
-import _Treasure
+from . import Dice
+from . import _Treasure
 
 _kinds = {
     "CP": ("Copper Pieces",     .01),
@@ -68,6 +68,6 @@ class Coin(_Treasure.Item):
         return s
 
 if __name__ == '__main__':
-    print Coin()
+    print(Coin())
 
 # end of file.
